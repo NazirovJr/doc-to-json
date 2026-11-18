@@ -1,0 +1,19 @@
+{
+  "doc_type": "commercial_offer",
+  "supplier_name": "«ҚазТехСервис» ЖШС",
+  "supplier_bin": "140240025567",
+  "doc_number": "КП-112",
+  "doc_date": "2026-09-17",
+  "currency": "KZT",
+  "total_amount": 2675000,
+  "vat_amount": null,
+  "line_items": [
+    { "name": "Ноутбук Lenovo ThinkPad E16", "qty": 5, "price": 420000 },
+    { "name": "Монитор Dell 27\"", "qty": 5, "price": 115000 }
+  ],
+  "field_confidence": {
+    "doc_type": 1, "supplier_name": 1, "supplier_bin": 1, "doc_number": 1, "doc_date": 1,
+    "currency": 1, "total_amount": 1, "vat_amount": 1, "line_items": 1
+  },
+  "warnings": []
+}

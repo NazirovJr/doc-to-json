@@ -1,0 +1,32 @@
+x-ollama-client: &ollama-client
+  OLLAMA_HOST: http://ollama:11434
+  OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen3.6:35b-a3b}
+
+services:
+  ollama:
+    image: ollama/ollama
+    volumes:
+      - ollama_models:/root/.ollama/models
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 5s
+      retries: 12
+
+  # Одноразовый шаг: скачивает модель, если её ещё нет в хранилище.
+  model:
+    image: ollama/ollama
+    environment: *ollama-client
+    entrypoint: ["/bin/sh", "-c", 'ollama show "$$OLLAMA_MODEL" > /dev/null 2>&1 || ollama pull "$$OLLAMA_MODEL"']
+    depends_on:
+      ollama:
+        condition: service_healthy
+
+  app:
+    build: .
+    environment: *ollama-client
+    depends_on:
+      model:
+        condition: service_completed_successfully
+
+volumes:
+  ollama_models:

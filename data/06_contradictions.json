@@ -1,0 +1,21 @@
+{
+  "doc_type": "invoice",
+  "supplier_name": "ТОО «Жетысу Снаб»",
+  "supplier_bin": "180540017823",
+  "doc_number": "302",
+  "doc_date": "2026-10-03",
+  "currency": "KZT",
+  "total_amount": 250000,
+  "vat_amount": null,
+  "line_items": [
+    { "name": "Цемент М500, мешок 50 кг", "qty": 100, "price": 2500 }
+  ],
+  "field_confidence": {
+    "doc_type": 1, "supplier_name": 1, "supplier_bin": 1, "doc_number": 1, "doc_date": 0.5,
+    "currency": 1, "total_amount": 0.5, "vat_amount": 1, "line_items": 1
+  },
+  "warnings": [
+    "doc_date: две разные даты счёта — 03.10.2026 и 05.10.2026, взята первая",
+    "total_amount: две разные итоговые суммы — 250 000 цифрами и 205 000 прописью, взята первая"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "doc_type": "invoice",
+  "supplier_name": "Nordwind Maschinenbau GmbH",
+  "supplier_bin": null,
+  "doc_number": "INV-2026/0418",
+  "doc_date": "2026-09-14",
+  "currency": "EUR",
+  "total_amount": 3285,
+  "vat_amount": null,
+  "line_items": [
+    { "name": "Hydraulic pump HP-200", "qty": 2, "price": 1450 },
+    { "name": "Seal kit SK-12", "qty": 10, "price": 38.5 }
+  ],
+  "field_confidence": {
+    "doc_type": 1, "supplier_name": 1, "supplier_bin": 1, "doc_number": 1, "doc_date": 1,
+    "currency": 1, "total_amount": 1, "vat_amount": 1, "line_items": 1
+  },
+  "warnings": []
+}

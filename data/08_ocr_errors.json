@@ -1,0 +1,23 @@
+{
+  "doc_type": "invoice",
+  "supplier_name": "ТОО «СеверСтрой Комплект»",
+  "supplier_bin": null,
+  "doc_number": "57",
+  "doc_date": "2026-08-14",
+  "currency": "KZT",
+  "total_amount": 830000,
+  "vat_amount": 114482.76,
+  "line_items": [
+    { "name": "Арматура А500С d12", "qty": 2, "price": 385000 },
+    { "name": "Проволока вязальная", "qty": 50, "price": 1200 }
+  ],
+  "field_confidence": {
+    "doc_type": 1, "supplier_name": 1, "supplier_bin": 0.5, "doc_number": 1, "doc_date": 0.5,
+    "currency": 1, "total_amount": 0.5, "vat_amount": 1, "line_items": 0.5
+  },
+  "warnings": [
+    "supplier_bin: после замен OCR в «08124OO1537» только 11 цифр — не читается, null",
+    "doc_date: исправлены ошибки OCR (l4.O8.2026 -> 14.08.2026)",
+    "суммы: исправлены ошибки OCR (1 2OO -> 1 200, 83O OOO -> 830 000)"
+  ]
+}

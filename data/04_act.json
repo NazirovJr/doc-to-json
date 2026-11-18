@@ -1,0 +1,19 @@
+{
+  "doc_type": "act",
+  "supplier_name": "ТОО «Астана Сервис Групп»",
+  "supplier_bin": "150840012345",
+  "doc_number": "87",
+  "doc_date": "2026-10-28",
+  "currency": "KZT",
+  "total_amount": 130000,
+  "vat_amount": 17931.03,
+  "line_items": [
+    { "name": "Техническое обслуживание кондиционеров", "qty": 4, "price": 25000 },
+    { "name": "Заправка фреоном", "qty": 2, "price": 15000 }
+  ],
+  "field_confidence": {
+    "doc_type": 1, "supplier_name": 1, "supplier_bin": 1, "doc_number": 1, "doc_date": 1,
+    "currency": 1, "total_amount": 1, "vat_amount": 1, "line_items": 1
+  },
+  "warnings": []
+}

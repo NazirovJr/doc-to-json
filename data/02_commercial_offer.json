@@ -1,0 +1,19 @@
+{
+  "doc_type": "commercial_offer",
+  "supplier_name": "Digital Solutions",
+  "supplier_bin": null,
+  "doc_number": null,
+  "doc_date": "2026-11-05",
+  "currency": "KZT",
+  "total_amount": null,
+  "vat_amount": null,
+  "line_items": [
+    { "name": "Разработка сайта", "qty": null, "price": 450000 },
+    { "name": "Техподдержка, в месяц", "qty": null, "price": 60000 }
+  ],
+  "field_confidence": {
+    "doc_type": 1, "supplier_name": 1, "supplier_bin": 1, "doc_number": 1, "doc_date": 1,
+    "currency": 1, "total_amount": 1, "vat_amount": 1, "line_items": 1
+  },
+  "warnings": []
+}

@@ -1,0 +1,17 @@
+INVOICE
+
+Nordwind Maschinenbau GmbH
+Industriestrasse 14, 70565 Stuttgart, Germany
+VAT ID: DE281456790
+
+Invoice No: INV-2026/0418
+Invoice date: 14 September 2026
+Bill to: ТОО "КазПромИмпорт", Алматы
+
+Description              Qty   Unit price   Amount
+Hydraulic pump HP-200    2     1,450.00     2,900.00
+Seal kit SK-12           10    38.50        385.00
+
+Total due: EUR 3,285.00
+VAT: reverse charge
+Payment terms: 30 days net
