@@ -5,28 +5,101 @@ CLI, который получает текст документа (счёт, К
 
 ## Запуск
 
+Обе инструкции рассчитаны на компьютер, где есть только операционная система; что уже установлено — пропустить.
+Команды для Windows даны для PowerShell. После установки программ открыть новое окно терминала, иначе новые
+команды не найдутся.
+
 ### Вариант 1: локально
 
-Нужны Python (проверено на 3.14) и [Ollama](https://ollama.com) с моделью, поддерживающей structured outputs.
+**Шаг 1. Установить Git, Python 3.10 или новее и [Ollama](https://ollama.com).**
 
-```bash
-python -m venv .venv
-.venv\Scripts\activate            # Linux/macOS: source .venv/bin/activate
-pip install -r requirements.txt
+Windows 10/11:
 
-python -m extractor data/01_invoice.txt     # один документ -> JSON в stdout
-python eval.py                              # весь набор -> отчёт
-python -m pytest                            # пустой вход и плохие ответы модели, Ollama не нужен
+```powershell
+winget install Git.Git
+winget install Python.Python.3.14
+winget install Ollama.Ollama
 ```
 
-`make` не используется: одна команда eval — `python eval.py`.
+Ubuntu / Debian:
+
+```bash
+sudo apt update && sudo apt install -y git python3 python3-venv curl
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+macOS: Git ставится командой `xcode-select --install`, Python и Ollama — установщиками с
+[python.org](https://www.python.org/downloads/) и [ollama.com](https://ollama.com/download).
+
+Если в Windows нет `winget`, те же программы ставятся установщиками с [git-scm.com](https://git-scm.com),
+python.org и ollama.com; в установщике Python отметить «Add python.exe to PATH».
+
+**Шаг 2. Скачать проект и модель, поставить зависимости, запустить.** Модель весит 21,7 ГБ и должна
+поместиться в память (оперативную и видео в сумме).
+
+Windows:
+
+```powershell
+git clone https://github.com/NazirovJr/doc-to-json.git
+cd doc-to-json
+ollama pull qwen3.6:35b-a3b
+$env:OLLAMA_MODEL = "qwen3.6:35b-a3b"
+python -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt
+
+.venv\Scripts\python -m extractor data/01_invoice.txt     # один документ -> JSON в stdout
+.venv\Scripts\python eval.py                              # весь набор -> отчёт
+.venv\Scripts\python -m pytest                            # пустой вход и плохие ответы модели, Ollama не нужен
+```
+
+Linux / macOS:
+
+```bash
+git clone https://github.com/NazirovJr/doc-to-json.git
+cd doc-to-json
+ollama pull qwen3.6:35b-a3b
+export OLLAMA_MODEL=qwen3.6:35b-a3b
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+
+.venv/bin/python -m extractor data/01_invoice.txt         # один документ -> JSON в stdout
+.venv/bin/python eval.py                                  # весь набор -> отчёт
+.venv/bin/python -m pytest                                # пустой вход и плохие ответы модели, Ollama не нужен
+```
+
+Переменная `OLLAMA_MODEL` действует только в текущем окне терминала. `make` не используется: одна команда
+eval — `python eval.py`.
 
 ### Вариант 2: Docker
 
-Нужен только Docker. Одна команда поднимает Ollama, при первом запуске скачивает модель
+**Шаг 1. Установить Git и Docker.**
+
+Windows 10/11:
+
+```powershell
+winget install Git.Git
+winget install Docker.DockerDesktop
+```
+
+Ubuntu / Debian:
+
+```bash
+sudo apt update && sudo apt install -y git curl
+curl -fsSL https://get.docker.com | sudo sh
+```
+
+macOS: Git ставится командой `xcode-select --install`, Docker Desktop — установщиком с
+[docker.com](https://www.docker.com/products/docker-desktop/).
+
+В Windows и macOS после установки запустить Docker Desktop и дождаться, пока он заработает; в Windows он
+использует WSL 2 и при установке может попросить перезагрузку. В Linux команды `docker` выполнять через `sudo`.
+
+**Шаг 2. Скачать проект и запустить.** Одна команда поднимает Ollama, при первом запуске скачивает модель
 `qwen3.6:35b-a3b` (21,7 ГБ) и прогоняет eval:
 
 ```bash
+git clone https://github.com/NazirovJr/doc-to-json.git
+cd doc-to-json
 docker compose up --build
 ```
 
@@ -37,11 +110,12 @@ docker compose run --rm app python -m extractor data/01_invoice.txt   # один
 docker compose -f compose.yaml -f compose.gpu.yaml up --build          # то же с NVIDIA GPU
 ```
 
-Без `compose.gpu.yaml` модель работает на CPU: запустится на любой машине, но медленно.
-Другая модель из реестра Ollama задаётся в файле `.env`, например `OLLAMA_MODEL=qwen3:4b`.
+Без `compose.gpu.yaml` модель работает на CPU: запустится на любой машине, но медленно. Для GPU нужен
+драйвер NVIDIA, в Linux — ещё NVIDIA Container Toolkit.
 
-Отчёт в разделе Eval получен в варианте 1 на локальной сборке модели. Публичная `qwen3.6:35b-a3b` —
-другой файл весов, её результат может отличаться.
+Модель весит 21,7 ГБ и должна поместиться в память, а Docker Desktop по умолчанию отдаёт контейнерам только
+часть памяти компьютера. Если её не хватает, в файле `.env` задаётся модель меньше, например
+`OLLAMA_MODEL=qwen3:4b` (eval на ней не прогонялся).
 
 Модели хранятся в отдельном volume. Папку моделей Ollama с хоста в контейнер подключать не стоит:
 Ollama в образе может быть новее и при старте меняет формат хранилища.
@@ -49,10 +123,13 @@ Ollama в образе может быть новее и при старте м�
 ## LLM
 
 Платного ключа нет, поэтому модель локальная, через Ollama. Вызов настоящий, не мок.
-Отчёт ниже получен на `qwen3.6-35b-a3b-agent` (Qwen 3.6 35B, Q4_K_M). Другая модель:
+Отчёт ниже получен на `qwen3.6-35b-a3b-agent` (Qwen 3.6 35B, Q4_K_M) — это локальная сборка, она же модель
+по умолчанию в коде. В инструкциях запуска используется публичная `qwen3.6:35b-a3b` из реестра Ollama: у неё
+другой файл весов, результат может отличаться. Другая модель:
 
 ```bash
-set OLLAMA_MODEL=имя-модели       # Linux/macOS: export OLLAMA_MODEL=имя-модели
+$env:OLLAMA_MODEL = "имя-модели"      # Windows (PowerShell)
+export OLLAMA_MODEL=имя-модели        # Linux/macOS
 ```
 
 Температура 0, режим размышления выключен: с ним документ обрабатывается около 100 секунд, без него около 9,
